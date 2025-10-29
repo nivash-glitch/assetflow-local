@@ -28,12 +28,13 @@ const Index = () => {
 
   const initializeBlockchain = async () => {
     try {
-      // Connect to local Hardhat network
-      const localProvider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
+      // Use environment variable or fallback to localhost
+      const rpcUrl = import.meta.env.VITE_BLOCKCHAIN_RPC_URL || "http://127.0.0.1:8545";
+      const localProvider = new ethers.JsonRpcProvider(rpcUrl);
       
       // Test connection
       const network = await localProvider.getNetwork();
-      console.log("Connected to network:", network.name, "Chain ID:", network.chainId);
+      console.log("Connected to network:", network.name, "Chain ID:", network.chainId, "RPC:", rpcUrl);
 
       // Get the first account (signer)
       const localSigner = await localProvider.getSigner(0);
@@ -42,9 +43,10 @@ const Index = () => {
       // Get current block number
       const currentBlock = await localProvider.getBlockNumber();
 
-      // Initialize contract
+      // Initialize contract - use env variable if available
+      const contractAddr = import.meta.env.VITE_CONTRACT_ADDRESS || contractAddress.RWA;
       const rwaContract = new ethers.Contract(
-        contractAddress.RWA,
+        contractAddr,
         RWAArtifact.abi,
         localSigner
       );

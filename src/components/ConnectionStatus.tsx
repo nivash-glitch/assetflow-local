@@ -69,8 +69,7 @@ export function ConnectionStatus({ isConnected, blockNumber, account }: Connecti
 
           <div className="pt-2">
             <p className="text-xs text-muted-foreground">
-              Network: <span className="font-mono text-foreground">localhost:8545</span> • 
-              Chain ID: <span className="font-mono text-foreground">1337</span>
+              Network: <span className="font-mono text-foreground">{import.meta.env.VITE_BLOCKCHAIN_RPC_URL || "localhost:8545"}</span>
             </p>
           </div>
         </div>
